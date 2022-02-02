@@ -1,21 +1,18 @@
-package com.example.projetandroid4a;
+package com.example.projetandroid4a.servercomm;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
 import com.androidnetworking.interfaces.OkHttpResponseListener;
-import com.example.projetandroid4a.models.Room;
+import com.example.projetandroid4a.servercomm.room.Room;
 
 import android.content.Context;
-import android.os.Build;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.function.Function;
 
 import okhttp3.Response;
 /*
@@ -64,7 +61,7 @@ public class ServerConnection {
                 .addBodyParameter("login",login)
                 .addBodyParameter("password",password)
                 .build()
-                .getAsJSONObject(getJSONRequestListener(context,sr));
+                .getAsJSONObject(getJSONRequestListener(sr));
     }
 
     /**
@@ -86,7 +83,7 @@ public class ServerConnection {
 
 //    private String responseCodeManager(okhttp3.Response response ){}
 
-    public JSONObjectRequestListener getJSONRequestListener(Context context, ServerTokenedResponseInterface sri){
+    public JSONObjectRequestListener getJSONRequestListener(ServerTokenedResponseInterface sri){
         return new JSONObjectRequestListener() {
             @Override
             public void onResponse(JSONObject response) {
@@ -157,6 +154,39 @@ public class ServerConnection {
         };
     }
 
+    public OkHttpResponseListener getResponseListener(Context context){
+        return new OkHttpResponseListener() {
+            @Override
+            public void onResponse(Response response)  {
+                String output;
 
+                switch (response.code()){
+                    case 200:
+                        output = "server rep ok";
+                        break;
 
+                    case 401:
+                        //problem enregistrement
+                        output = "compte inconnu";
+                        break;
+
+                    case 400:
+                        //problem requete
+                        output = "err request";
+                        break;
+
+                    case 500:
+                        //problem enregistrement
+                        output = "err enregistrement";
+                        break;
+
+                    default:
+                        output = "server mad lol";
+                        //problem
+                }
+                Log.d("Debug", output);
+            }
+            @Override
+            public void onError(ANError anError) {}
+        };}
 }

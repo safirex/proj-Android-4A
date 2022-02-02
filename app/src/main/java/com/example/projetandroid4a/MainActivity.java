@@ -6,19 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
+import com.example.projetandroid4a.servercomm.ServerConnection;
+import com.example.projetandroid4a.servercomm.ServerTokenedResponseInterface;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import okhttp3.Response;
-import okhttp3.internal.Util;
-
-public class MainActivity extends AppCompatActivity implements  ServerTokenedResponseInterface{
+public class MainActivity extends AppCompatActivity implements ServerTokenedResponseInterface {
     ServerConnection server = ServerConnection.getInstance();
     EditText pass;
     EditText name;

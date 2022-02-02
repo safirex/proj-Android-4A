@@ -1,4 +1,4 @@
-package com.example.projetandroid4a;
+package com.example.projetandroid4a.servercomm;
 
 import org.json.JSONObject;
 

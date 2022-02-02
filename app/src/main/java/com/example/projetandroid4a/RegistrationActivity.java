@@ -2,17 +2,13 @@ package com.example.projetandroid4a;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.OkHttpResponseListener;
-
-import okhttp3.Response;
+import com.example.projetandroid4a.servercomm.ServerConnection;
+import com.example.projetandroid4a.servercomm.ServerResponseInterface;
 
 public class RegistrationActivity extends AppCompatActivity implements ServerResponseInterface {
     ServerConnection server = ServerConnection.getInstance();
