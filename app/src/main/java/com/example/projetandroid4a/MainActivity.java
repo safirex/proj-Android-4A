@@ -6,13 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import okhttp3.Response;
+import okhttp3.internal.Util;
 
-public class MainActivity extends AppCompatActivity implements  ServerResponseInterface{
+public class MainActivity extends AppCompatActivity implements  ServerTokenedResponseInterface{
     ServerConnection server = ServerConnection.getInstance();
     EditText pass;
     EditText name;
@@ -38,13 +44,23 @@ public class MainActivity extends AppCompatActivity implements  ServerResponseIn
 
 
     ///////////////////// Actions on server response ////////////////////////
-    public void onSuccessfulRequest() {
+    public void onSuccessfulRequest(JSONObject response) {
+        String token = "";
+        try {
+            token = response.getString("token");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
         Intent connexionIntent = new Intent(MainActivity.this,HomePageActivity.class);
+        connexionIntent.putExtra("token",token);
         startActivity(connexionIntent);
     }
 
-    public void onFailedRequest() {
-
+    public void onFailedRequest(ANError anError) {
+        Utils.ShowInfo(anError.getMessage(),this);
     }
 
 
