@@ -23,6 +23,7 @@ public class ServerConnection {
 
     private static ServerConnection instance;
     private String rootUrl = "https://myhouse.lesmoulinsdudev.com";
+    private String connexionToken;
 
 
     private void ServerConnection(){}
@@ -48,6 +49,19 @@ public class ServerConnection {
     public String getRoomUrl()          { return rootUrl+"/rooms"       ;}
     public String getRoomCreateUrl()    { return rootUrl+"/room-create" ;}
     public String getRoomDeleteUrl()    { return rootUrl+"/room-delete" ;}
+    public String getSensorUrl()        { return rootUrl+"/sensors"     ;}
+    public String getSensorCreateUrl()  { return rootUrl+"/sensors-create"      ;}
+    public String getSensorDeleteUrl()  { return rootUrl+"/sensors-delete"      ;}
+    public String getSensorValueUrl()   { return rootUrl+"/sensors-value"       ;}
+    public String getDeviceUrl()        { return rootUrl+"/devices"     ;}
+
+
+    public String getConnexionToken()   { return connexionToken         ;}
+
+
+    public void setConnexionToken(String str){
+        connexionToken = str;
+    }
 
     /**
      * Send user credentials for connexion to server
@@ -97,10 +111,6 @@ public class ServerConnection {
         };
     }
 
-    public ArrayList<Room> fetchRooms(){
-
-        return null;
-    }
 
     public OkHttpResponseListener getResponseListener(Context context, ServerResponseInterface rpActions){
         return new OkHttpResponseListener() {
@@ -154,39 +164,50 @@ public class ServerConnection {
         };
     }
 
+
     public OkHttpResponseListener getResponseListener(Context context){
         return new OkHttpResponseListener() {
             @Override
             public void onResponse(Response response)  {
-                String output;
+                Toast toast;
 
                 switch (response.code()){
                     case 200:
-                        output = "server rep ok";
+                        //ok
+                        toast = Toast.makeText(context,"server rep ok",Toast.LENGTH_SHORT);
+                        toast.show();
                         break;
 
                     case 401:
                         //problem enregistrement
-                        output = "compte inconnu";
+                        toast = Toast.makeText(context,"compte inconnu",Toast.LENGTH_SHORT);
+                        toast.show();
                         break;
 
                     case 400:
                         //problem requete
-                        output = "err request";
+                        toast = Toast.makeText(context,"err request",Toast.LENGTH_SHORT);
+                        toast.show();
                         break;
 
                     case 500:
                         //problem enregistrement
-                        output = "err enregistrement";
+                        toast = Toast.makeText(context,"err enregistrement",Toast.LENGTH_SHORT);
+                        toast.show();
                         break;
 
                     default:
-                        output = "server mad lol";
+                        toast = Toast.makeText(context,"server mad lol",Toast.LENGTH_SHORT);
+                        toast.show();
                         //problem
                 }
-                Log.d("Debug", output);
             }
+
             @Override
-            public void onError(ANError anError) {}
-        };}
+            public void onError(ANError anError) {
+                Toast toast = Toast.makeText(context,"big comm problem",Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        };
+    }
 }

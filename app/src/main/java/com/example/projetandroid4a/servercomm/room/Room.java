@@ -17,4 +17,13 @@ public class Room {
         this.name=name;
         pictureUrl = urlPicture;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Room " + name;
+    }
 }

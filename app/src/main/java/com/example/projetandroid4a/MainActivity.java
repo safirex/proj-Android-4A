@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ServerTokenedResp
         }
 
 
-
+        server.setConnexionToken(token);
         Intent connexionIntent = new Intent(MainActivity.this,HomePageActivity.class);
         connexionIntent.putExtra("token",token);
         startActivity(connexionIntent);

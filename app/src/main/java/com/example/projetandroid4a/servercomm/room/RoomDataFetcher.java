@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.androidnetworking.error.ANError;
+import com.example.projetandroid4a.HomePageActivity;
 import com.example.projetandroid4a.R;
 import com.example.projetandroid4a.Utils;
 import com.example.projetandroid4a.servercomm.SRExternalClassAbs;
@@ -30,40 +32,42 @@ public class RoomDataFetcher extends SRExternalClassAbs implements ServerTokened
     public void onSuccessfulRequest(JSONObject response)  {
         try {
             // Récupération du tableau d'objet
-            JSONArray flavours = response.getJSONArray("rooms");
-            ArrayList<Room> flavourList = new ArrayList<>();
+            JSONArray roomRawData = response.getJSONArray("rooms");
+            ArrayList<Room> roomList = new ArrayList<>();
 
 
-            for(int iFlavour = 0; iFlavour < flavours.length(); ++iFlavour)
+            for(int count = 0; count < roomRawData.length(); ++count)
             {
                 // On récupère les données de la pizza
-                final JSONObject flavour = flavours.getJSONObject(iFlavour);
+                final JSONObject room = roomRawData.getJSONObject(count);
                 // On ajoute les données à la liste des parfums
-                flavourList.add(new Room(
-                        flavour.getInt("id"),
-                        flavour.getString("name"),
-                        flavour.getString("picture")
+                roomList.add(new Room(
+                        room.getInt("id"),
+                        room.getString("name"),
+                        room.getString("picture")
                 ));
             }
 
-            Utils.ShowInfo(flavours.getJSONObject(0).getString("name"),context);
+            Utils.ShowInfo(roomRawData.getJSONObject(0).getString("name"),context);
 
-            // Création d’un adaptateur permettant d’afficher les Flavour dans un Spinner
+            // Création d’un adaptateur permettant d’afficher les room dans un Spinner
             ArrayAdapter<Room> adapter = new ArrayAdapter<>(
                     activity,
                     android.R.layout.simple_spinner_dropdown_item,
-                    flavourList
+                    roomList
             );
 
 
             //set data to GUI
-
             Spinner spinner = activity.findViewById(R.id.spinner);
-
             spinner.setAdapter(adapter);
+
         }   catch (JSONException e) {
             e.printStackTrace();
         }
+
+        HomePageActivity hp =   (HomePageActivity)(activity);
+        hp.updateDeleteButtonState();
     }
 
     public void onFailedRequest(ANError anError) {

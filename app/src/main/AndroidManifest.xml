@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetAndroid4A">
         <activity
+            android:name=".SensorCreationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RoomCreationActivity"
+            android:exported="true" />
+        <activity
             android:name=".HomePageActivity"
             android:exported="true" />
         <activity
